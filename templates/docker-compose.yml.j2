@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+services:
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: {{kuma_image}}
+    ports:
+      - "3001:{{ kuma_host_port }}"
+    volumes:
+      - '{{kuma_host_data_path}}:/app/data'
+    restart: unless-stopped

@@ -1,0 +1,16 @@
+[Unit]
+Description=uptime-kuma
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User={{ kuma_container_user }}
+Group=docker
+WorkingDirectory=/etc/uptime-kuma
+ExecStartPre=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml down
+ExecStart=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
