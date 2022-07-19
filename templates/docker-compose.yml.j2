@@ -6,6 +6,7 @@ services:
   uptime-kuma:
     container_name: uptime-kuma
     image: {{kuma_image}}
+    pull_policy: always
     ports:
       - "3001:{{ kuma_host_port }}"
     volumes:

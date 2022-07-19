@@ -3,8 +3,7 @@
   hosts: all
   become: true
   vars:
-    kuma_container_user: root
-    kuma_host_data_path: /etc/uptime-kuma
+    docker_compose_version: "v2.4.1"
     pip_install_packages:
       - requests
       - docker
@@ -12,12 +11,6 @@
     - name: Update apt cache.
       apt: update_cache=true cache_valid_time=600
       changed_when: false
-
-    - name: create data folder
-      ansible.builtin.file:
-        dest: "{{kuma_host_data_path}}"
-        state: directory
-        mode: 0777
 
   roles:
     - role: geerlingguy.pip
