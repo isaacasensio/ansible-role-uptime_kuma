@@ -7,10 +7,10 @@ After=docker.service
 Restart=always
 User={{ kuma_container_user }}
 Group=docker
-WorkingDirectory=/etc/uptime-kuma
-ExecStartPre=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml down
-ExecStart=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml up
-ExecStop=/usr/local/bin/docker-compose -f /etc/uptime-kuma/docker-compose.yml down
+WorkingDirectory={{ kuma_host_config_path }}
+ExecStartPre=/usr/local/bin/docker-compose -f {{ kuma_host_config_path }}/docker-compose.yml down
+ExecStart=/usr/local/bin/docker-compose -f {{ kuma_host_config_path }}/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f {{ kuma_host_config_path }}/docker-compose.yml down
 
 [Install]
 WantedBy=multi-user.target

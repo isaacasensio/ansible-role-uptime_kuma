@@ -7,11 +7,12 @@
     mode: 0755
   loop:
     - "{{ kuma_host_data_path }}"
+    - "{{ kuma_host_config_path }}"
 
 - name: Copy uptime-kuma docker-compose template.
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
-    dest: "{{ kuma_host_data_path }}/docker-compose.yml"
+    dest: "{{ kuma_host_config_path }}/docker-compose.yml"
     mode: 0644
   become: true
 
