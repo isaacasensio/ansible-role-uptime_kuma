@@ -1,18 +1,40 @@
 ---
-- name: Ensure uptime-kuma config folder exists
+- name: Create kuma user
+  ansible.builtin.user:
+    name: "{{ kuma_container_user }}"
+    shell: /sbin/nologin
+    create_home: true
+    state: present
+  become: true
+
+- name: Get created user metadata
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ kuma_container_user }}"
+
+- name: Setting user id and group id facts
+  ansible.builtin.set_fact:
+    created_uid: "{{ ansible_facts.getent_passwd[kuma_container_user].1 }}"
+    created_gid: "{{ ansible_facts.getent_passwd[kuma_container_user].2 }}"
+
+- name: Ensure kuma folders exists
   become: true
   ansible.builtin.file:
     dest: "{{ item }}"
+    owner: "{{ kuma_container_user }}"
+    group: "{{ kuma_container_user }}"
     state: directory
     mode: 0755
   loop:
-    - "{{ kuma_host_data_path }}"
     - "{{ kuma_host_config_path }}"
+    - "{{ kuma_host_data_path }}"
 
-- name: Copy uptime-kuma docker-compose template.
+- name: Copy kuma docker-compose template.
   ansible.builtin.template:
     src: templates/docker-compose.yml.j2
     dest: "{{ kuma_host_config_path }}/docker-compose.yml"
+    owner: "{{ kuma_container_user }}"
+    group: "{{ kuma_container_user }}"
     mode: 0644
   become: true
 
@@ -40,7 +62,7 @@
 
 - name: Remove old image versions
   become: true
-  docker_prune:
+  community.docker.docker_prune:
     images: true
     images_filters:
       dangling: false

@@ -7,6 +7,9 @@ services:
     container_name: uptime-kuma
     image: {{kuma_image}}
     pull_policy: always
+    environment:
+      PUID: "{{ created_uid }}"
+      PGID: "{{ created_gid }}"
     ports:
       - "3001:{{ kuma_host_port }}"
     volumes:

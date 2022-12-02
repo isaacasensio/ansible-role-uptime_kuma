@@ -1,7 +1,7 @@
 uptime_kuma
 =========
 
-Installs [Uptime Kuma](https://github.com/louislam/uptime-kuma) as a docker container
+Installs [Uptime Kuma](https://github.com/louislam/uptime-kuma) docker container as a daemon
 
 
 Role Variables
@@ -20,12 +20,17 @@ kuma_host_port: 3001
 Host exposed port from where to reach Kuma.
 
 ```
-kuma_host_data_path: /etc/uptime-kuma
+kuma_host_config_path: /etc/uptime-kuma
+```
+Host path which will contain Kuma docker-compose file.
+
+```
+kuma_host_data_path: /var/lib/uptime-kuma
 ```
 Host path which will contain Kuma configuration.
 
 ```
-kuma_container_user: pi
+kuma_container_user: kuma
 ```
 User who will run the container.
 
